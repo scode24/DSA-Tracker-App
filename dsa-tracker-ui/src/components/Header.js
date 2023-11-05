@@ -4,6 +4,9 @@ import { messageStore } from '../shared/StateStore';
 
 function Header() {
 
+    const appName = process.env.REACT_APP_NAME
+    const appVersion = process.env.REACT_APP_VERSION
+
     const { messageObj, setMessageObj } = messageStore();
 
     const navigator = useNavigate();
@@ -27,7 +30,7 @@ function Header() {
                         </svg>
                     </div>
                     <div className='flex flex-col justify-center items-center font-semibold cursor-pointer' onClick={() => navigator('/')}>
-                        DSA Tracker 1.0
+                        {appName + ' ' + appVersion}
                     </div>
                 </div>
 

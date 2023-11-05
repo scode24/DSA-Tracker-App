@@ -6,6 +6,8 @@ import { messageStore } from '../shared/StateStore'
 
 function Register() {
 
+    const baseUrl = process.env.REACT_APP_SERVER_BASE_URL
+
     const { messageObj, setMessageObj } = messageStore();
 
     const [formData, setFormData] = useState({
@@ -44,7 +46,7 @@ function Register() {
             return
         }
 
-        axios.post('http://localhost:8000/register', {
+        axios.post(baseUrl + '/register', {
             name: formData['name'],
             email: formData['email'],
             password: hashPassword(formData['password'])
