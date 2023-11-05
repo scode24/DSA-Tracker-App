@@ -15,6 +15,10 @@ function Register() {
         confirm_password: ''
     })
 
+    const resetForm = () => {
+        document.getElementById('register-form').reset()
+    }
+
     const handleFormInput = (e) => {
         formData[e.target.name] = e.target.value
         setFormData(formData)
@@ -46,6 +50,7 @@ function Register() {
             password: hashPassword(formData['password'])
         }).then(response => {
             setMessageObj(response['data'], response['status']);
+            resetForm()
         }).catch(error => {
             const response = error['response']
             setMessageObj(response['data'], response['status']);
@@ -58,7 +63,7 @@ function Register() {
         <div className='flex flex-row justify-center h-90v'>
             <div className='flex flex-col justify-center h-full text-center w-1/4  max-md:w-3/4'>
                 <span className='text-3xl font-bold'>New member ? Sign up here</span>
-                <form className='mt-9 text-left' onSubmit={handleFormSubmit}>
+                <form id='register-form' className='mt-9 text-left' onSubmit={handleFormSubmit}>
 
                     <div className='flex flex-col'>
                         <label>Name</label>
