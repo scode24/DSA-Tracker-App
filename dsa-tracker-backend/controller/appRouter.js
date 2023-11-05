@@ -6,7 +6,7 @@ router.get('/login', (req, res) => {
     const email = req.get('email')
     const password = req.get('password')
     const usersInfoModel = modelData['usersInfoModel']
-    usersInfoModel.find({ email, password }).select('-password')
+    usersInfoModel.find({ email, password }).select('_id name email')
         .then(userInfo => {
             res.send(userInfo);
         }).catch(error => {
