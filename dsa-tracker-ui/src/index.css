@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto&family=Roboto+Flex:opsz,wght@8..144,400;8..144,600&display=swap');
+
+body {
+  background: #ECF0F1;
+  font-family: 'Roboto', sans-serif;
+  font-family: 'Roboto Flex', sans-serif;
+}
+
+button {
+  @apply bg-black text-white rounded-md py-2 px-3 shadow-sm active:border-green-500 border-2
+}
+
+.custom-button {
+  @apply bg-black text-white rounded-md py-2 px-3 shadow-sm active:border-green-500 border-2
+}
+
+input {
+  @apply border border-gray-300 rounded-md py-2 px-3 shadow-sm my-2
+}
