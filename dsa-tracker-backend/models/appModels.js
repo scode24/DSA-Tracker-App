@@ -3,9 +3,10 @@ const mongoose = require('mongoose')
 const modelData = {
     'logEntryModel': new mongoose.model('log_entry', new mongoose.Schema({
         question: String,
-        category: String,
-        notes: String,
+        link: String,
+        topic: String,
         complexity: String,
+        note: String,
         status: String
     }), 'log_entry'),
 

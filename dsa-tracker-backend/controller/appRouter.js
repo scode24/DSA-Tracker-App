@@ -44,9 +44,10 @@ router.post('/save', (req, res) => {
     const entryModel = modelData['logEntryModel']
     const newEntry = new entryModel({
         question: requestData['question'],
-        category: requestData['category'],
-        notes: requestData['notes'],
+        link: requestData['link'],
+        topic: requestData['topic'],
         complexity: requestData['complexity'],
+        note: requestData['note'],
         status: requestData['status']
     })
 

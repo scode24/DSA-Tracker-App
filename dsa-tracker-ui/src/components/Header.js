@@ -16,6 +16,10 @@ function Header() {
     const navigator = useNavigate();
 
     const getBackgroundColor = () => {
+        setTimeout(() => {
+            setMessageObj('', '')
+        }, 7000);
+
         if (messageObj['status'] === 'success' || messageObj['status'] === 200) {
             return { 'backgroundColor': '#019031' }
         } else if (messageObj['status'] === 'info' || messageObj['status'] === 400) {
