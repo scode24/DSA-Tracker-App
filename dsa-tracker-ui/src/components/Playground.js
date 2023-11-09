@@ -4,6 +4,7 @@ import { userInfoStore } from '../shared/StateStore'
 import { updateFormDataStore } from '../shared/StateStore'
 import SummaryCard from './SummaryCard';
 import EntryForm from './EntryForm';
+import CardsPanel from './CardsPanel';
 
 function Playground() {
 
@@ -39,8 +40,8 @@ function Playground() {
                     </div>
                     : <></>
                 }
-                <div className='w-2/3 mx-3 max-md:w-auto max-md:mx-0 max-md:mt-3'>
-                    {/* <EntryForm></EntryForm> */}
+                <div className='w-full mx-3 max-md:w-auto max-md:mx-0 max-md:mt-3' >
+                    <CardsPanel></CardsPanel>
                 </div>
             </div >
         </div >
