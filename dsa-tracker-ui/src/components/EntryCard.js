@@ -1,14 +1,23 @@
 import React from 'react'
 
-function EntryCard() {
+function EntryCard(props) {
     return (
         <div className='card flex flex-col h-fit-content border mr-3 mb-3 max-md:w-full'>
-            <div className='h-5p rounded-md rounded-t-full bg-green-700'>
+            <div className='h-5p rounded-md rounded-t-full' style={{ 'backgroundColor': '#019031' }}>
             </div>
+
             <div className='p-3 border-b'>
-                <span className='font-bold'>Squares of a Sorted Array If you want to include a polyfill, you need to:</span>
+                <div className='mb-2'>
+                    <span className='text-white px-2 py-1 w-fit text-xs rounded-md' style={{ 'backgroundColor': props['data']['status'] === 'solved' ? '#019031' : '#DFAF2B' }}>
+                        {props['data']['status'] === 'solved' ? 'Solved' : 'Flagged'}
+                    </span>
+                    <span className='w-fit text-xs px-2 py-1  rounded-md border ml-1'>{props['data']['topic']}</span>
+                    <span className='w-fit text-xs px-2 py-1  rounded-md border ml-1'>{props['data']['complexity']}</span>
+                </div>
+
+                <span className='font-bold'>{props['data']['question']}</span>
                 <p className='mt-3 text-sm h-90p overflow-scroll'>
-                    If you want to include a polyfill, you need to
+                    {props['data']['note']}
                 </p>
             </div>
 
@@ -18,7 +27,7 @@ function EntryCard() {
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-4 mr-2">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244" />
                         </svg>
-                        <span>Link</span>
+                        <span onClick={() => window.open(props['data']['link'], "_blank")}>Link</span>
                     </div>
                 </button>
                 <button className='w-28 bg-transparent text-black mx-3'>

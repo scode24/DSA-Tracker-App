@@ -1,7 +1,8 @@
 import React from 'react'
 import EntryCard from './EntryCard'
 
-function CardsPanel() {
+function CardsPanel(props) {
+
     return (
         <div className='card w-full'>
             <div className='flex flex-row justify-between p-2 px-3 border-b'>
@@ -31,15 +32,12 @@ function CardsPanel() {
 
             <div className='p-3 h-90v overflow-scroll'>
                 <div className='grid grid-cols-3 h-fit-content max-md:grid-cols-1'>
-                    <EntryCard></EntryCard>
-                    <EntryCard></EntryCard>
-                    <EntryCard></EntryCard>
-                    <EntryCard></EntryCard>
-                    <EntryCard></EntryCard>
-                    <EntryCard></EntryCard>
+                    {props['data'].map((data, key) => (
+                        <EntryCard EntryCard toggleLogEntryDialogFn={props['toggleLogEntryDialogFn']} fetchLogs={props['fetchLogs']} data={data} ></EntryCard>
+                    ))}
                 </div>
             </div>
-        </div>
+        </div >
     )
 }
 
