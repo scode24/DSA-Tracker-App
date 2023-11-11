@@ -92,4 +92,24 @@ router.get('/find', (req, res) => {
         })
 })
 
+router.get('/search', (req, res) => {
+    const searchValue = req.query.searchValue
+    const entryModel = modelData['logEntryModel']
+    entryModel.find({
+        $or: [
+            { 'question': { $regex: searchValue, $options: 'i' } },
+            { 'topic': { $regex: searchValue, $options: 'i' } },
+            { 'complexity': { $regex: searchValue, $options: 'i' } },
+            { 'note': { $regex: searchValue, $options: 'i' } },
+            { 'status': { $regex: searchValue, $options: 'i' } }
+        ]
+    })
+        .then(data => {
+            res.send(data)
+        })
+        .catch(error => {
+            res.status(500).send(error)
+        })
+})
+
 module.exports = router

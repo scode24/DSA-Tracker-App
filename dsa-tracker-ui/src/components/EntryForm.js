@@ -8,7 +8,7 @@ function EntryForm(props) {
 
     const updateFormDataObj = props.data;
 
-    const { messageObj, setMessageObj } = messageStore()
+    const { setMessageObj } = messageStore()
     const [entryFormData, setEntryFormData] = useState({
         question: '',
         link: '',
@@ -46,6 +46,7 @@ function EntryForm(props) {
                     note: '',
                     status: ''
                 })
+                props['fetchLogs']('')
             }).catch(error => {
                 const response = error['response']
                 setMessageObj(response['data'], response['status']);

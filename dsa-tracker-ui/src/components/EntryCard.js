@@ -3,7 +3,7 @@ import React from 'react'
 function EntryCard(props) {
     return (
         <div className='card flex flex-col h-fit-content border mr-3 mb-3 max-md:w-full'>
-            <div className='h-5p rounded-md rounded-t-full' style={{ 'backgroundColor': '#019031' }}>
+            <div className='h-5p rounded-md rounded-t-full' style={{ 'backgroundColor': props['data']['status'] === 'solved' ? '#019031' : '#DFAF2B' }}>
             </div>
 
             <div className='p-3 border-b'>

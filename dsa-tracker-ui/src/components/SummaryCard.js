@@ -2,9 +2,12 @@ import React from 'react'
 
 function SummaryCard(props) {
 
-    const getPercentage = () => {
-        const total = props['data']['solvedCount'] + props['data']['flaggedCount'];
-        return [(total / props['data']['solvedCount']) * 100, (total / props['data']['flaggedCount']) * 100]
+    const getPercentage = (status) => {
+        const total = props['data']['solvedCount'] + props['data']['flaggedCount']
+        if (status === 'solved') {
+            return (props['data']['solvedCount'] / total) * 100
+        }
+        return (props['data']['flaggedCount'] / total) * 100
     }
 
     return (
@@ -13,8 +16,8 @@ function SummaryCard(props) {
                 <span>Data metric</span>
                 <span className='text-2xl font-bold mt-1'>Entry statistics</span>
                 <div className='flex flex-row mt-2'>
-                    <div className='h-10p rounded-md' style={{ 'backgroundColor': '#019031', 'width': getPercentage()[0] }}></div>
-                    <div className='h-10p rounded-md ml-1' style={{ 'backgroundColor': '#DFAF2B', 'width': getPercentage()[1] }}></div>
+                    <div className='h-10p rounded-md' style={{ 'backgroundColor': '#019031', 'width': getPercentage('solved') + '%' }}></div>
+                    <div className='h-10p rounded-md ml-1' style={{ 'backgroundColor': '#DFAF2B', 'width': getPercentage('flagged') + '%' }}></div>
                 </div>
 
                 <div className='flex flex-row mt-3'>
