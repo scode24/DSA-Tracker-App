@@ -49,6 +49,17 @@ function Playground() {
             })
     }
 
+    const deleteLog = (id) => {
+        axios.get(baseUrl + '/delete/' + id)
+            .then(response => {
+                setMessageObj(response['data'], response['status']);
+                fetchLogs('');
+            }).catch(error => {
+                const response = error['response']
+                setMessageObj(response['data'], response['status']);
+            })
+    }
+
     const fetchLogs = useCallback(
         async (id) => {
             let url = '';
@@ -108,7 +119,7 @@ function Playground() {
                     : <></>
                 }
                 <div className='w-full mx-3 max-md:w-auto max-md:mx-0 max-md:mt-3' >
-                    <CardsPanel toggleLogEntryDialogFn={toggleLogEntryDialog} fetchLogs={fetchLogs} searchLogs={searchLogs} data={logData}></CardsPanel>
+                    <CardsPanel toggleLogEntryDialogFn={toggleLogEntryDialog} fetchLogs={fetchLogs} searchLogs={searchLogs} deleteLog={deleteLog} data={logData}></CardsPanel>
                 </div>
             </div >
         </div >

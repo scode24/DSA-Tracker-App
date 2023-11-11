@@ -29,7 +29,7 @@ function CardsPanel(props) {
             <div className='p-3 h-90v overflow-scroll'>
                 <div className='grid grid-cols-3 h-fit-content max-md:grid-cols-1'>
                     {props['data'].map((data, index) => (
-                        <EntryCard key={index} EntryCard toggleLogEntryDialogFn={props['toggleLogEntryDialogFn']} fetchLogs={props['fetchLogs']} data={data} ></EntryCard>
+                        <EntryCard key={index} EntryCard toggleLogEntryDialogFn={props['toggleLogEntryDialogFn']} fetchLogs={props['fetchLogs']} deleteLog={props['deleteLog']} data={data} ></EntryCard>
                     ))}
                 </div>
             </div>

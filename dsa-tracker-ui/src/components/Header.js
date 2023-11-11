@@ -89,7 +89,7 @@ function Header() {
                                     </div>
                                 </div>
                                 <div className='flex flex-row justify-end border-t p-2 mt-3'>
-                                    <button className='py-1'>Sign out</button>
+                                    <button className='text-black py-1 bg-transparent'>Sign out</button>
                                 </div>
                             </div>
                                 : <></>

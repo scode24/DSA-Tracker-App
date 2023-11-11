@@ -81,6 +81,19 @@ router.post('/update/:id', (req, res) => {
         });
 })
 
+router.get('/delete/:id', (req, res) => {
+    const entryModel = modelData['logEntryModel']
+    const entryId = req.params.id;
+
+    entryModel.findByIdAndDelete(entryId)
+        .then(data => {
+            res.send('Entry has been deleted successfully');
+        })
+        .catch(error => {
+            res.status(500).send(error);
+        });
+})
+
 router.get('/find', (req, res) => {
     const entryModel = modelData['logEntryModel']
     entryModel.find()
