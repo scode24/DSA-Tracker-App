@@ -47,7 +47,7 @@ function Header() {
                 </div>
 
                 <div className='flex flex-row justify-center items-center'>
-                    <div className='mr-5 cursor-pointer'>About</div>
+                    <div className='mr-5 cursor-pointer' onClick={() => navigator('/about')}>About</div>
 
                     {userInfoObj['_id'] === '' ?
                         <div className='flex flex-row cursor-pointer' onClick={() => navigator('/login')}>
