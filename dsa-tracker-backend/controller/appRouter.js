@@ -43,6 +43,7 @@ router.post('/save', (req, res) => {
     const requestData = req.body
     const entryModel = modelData['logEntryModel']
     const newEntry = new entryModel({
+        userId: req.headers['userid'],
         question: requestData['question'],
         link: requestData['link'],
         topic: requestData['topic'],
@@ -96,7 +97,7 @@ router.get('/delete/:id', (req, res) => {
 
 router.get('/find', (req, res) => {
     const entryModel = modelData['logEntryModel']
-    entryModel.find()
+    entryModel.find({ userId: req.headers['userid'] })
         .then(data => {
             res.send(data)
         })
@@ -109,12 +110,17 @@ router.get('/search', (req, res) => {
     const searchValue = req.query.searchValue
     const entryModel = modelData['logEntryModel']
     entryModel.find({
-        $or: [
-            { 'question': { $regex: searchValue, $options: 'i' } },
-            { 'topic': { $regex: searchValue, $options: 'i' } },
-            { 'complexity': { $regex: searchValue, $options: 'i' } },
-            { 'note': { $regex: searchValue, $options: 'i' } },
-            { 'status': { $regex: searchValue, $options: 'i' } }
+        $and: [
+            {
+                $or: [
+                    { 'question': { $regex: searchValue, $options: 'i' } },
+                    { 'topic': { $regex: searchValue, $options: 'i' } },
+                    { 'complexity': { $regex: searchValue, $options: 'i' } },
+                    { 'note': { $regex: searchValue, $options: 'i' } },
+                    { 'status': { $regex: searchValue, $options: 'i' } }
+                ]
+            },
+            { 'userId': req.headers['userid'] } // New condition for userId
         ]
     })
         .then(data => {

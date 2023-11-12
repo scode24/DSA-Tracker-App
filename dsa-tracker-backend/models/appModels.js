@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 
 const modelData = {
     'logEntryModel': new mongoose.model('log_entry', new mongoose.Schema({
+        userId: String,
         question: String,
         link: String,
         topic: String,

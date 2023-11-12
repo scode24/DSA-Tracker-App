@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { messageStore } from '../shared/StateStore'
+import { messageStore, userInfoStore } from '../shared/StateStore'
 import axios from 'axios'
 
 function EntryForm(props) {
@@ -9,6 +9,7 @@ function EntryForm(props) {
     const updateFormDataObj = props.data;
 
     const { setMessageObj } = messageStore()
+    const { userInfoObj } = userInfoStore()
     const [entryFormData, setEntryFormData] = useState({
         question: '',
         link: '',
@@ -34,7 +35,11 @@ function EntryForm(props) {
             return
         }
 
-        axios.post(baseUrl + '/save', entryFormData)
+        axios.post(baseUrl + '/save', entryFormData, {
+            headers: {
+                userId: userInfoObj['_id']
+            }
+        })
             .then(response => {
                 setMessageObj(response['data'], response['status']);
                 resetForm()

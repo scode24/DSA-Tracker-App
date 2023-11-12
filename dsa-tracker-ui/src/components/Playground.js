@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react'
-import { messageStore } from '../shared/StateStore'
-import { updateFormDataStore } from '../shared/StateStore'
+import { messageStore, updateFormDataStore, userInfoStore } from '../shared/StateStore'
 import SummaryCard from './SummaryCard';
 import EntryForm from './EntryForm';
 import CardsPanel from './CardsPanel';
@@ -12,6 +11,7 @@ function Playground() {
 
     const { setMessageObj } = messageStore()
     const { updateFormDataObj, setUpdateFormDataObj } = updateFormDataStore()
+    const { userInfoObj } = userInfoStore()
     const [isEntryDialogOpen, setIsEntryDialogOpen] = useState(false)
     const [logData, setLogData] = useState([])
     const [solvedCount, setSolvedCount] = useState(0)
@@ -26,7 +26,11 @@ function Playground() {
     }
 
     const searchLogs = (value) => {
-        axios.get(baseUrl + '/search?searchValue=' + value)
+        axios.get(baseUrl + '/search?searchValue=' + value, {
+            headers: {
+                userId: userInfoObj['_id']
+            }
+        })
             .then(response => {
                 let solvedCount = 0
                 let flaggedCount = 0
@@ -70,7 +74,11 @@ function Playground() {
             }
 
             try {
-                const response = await axios.get(url);
+                const response = await axios.get(url, {
+                    headers: {
+                        userId: userInfoObj['_id']
+                    }
+                });
                 let solvedCount = 0;
                 let flaggedCount = 0;
                 setLogData(response.data);
