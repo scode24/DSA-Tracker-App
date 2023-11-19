@@ -22,6 +22,19 @@ const auth = (req, res, next) => {
   next();
 };
 
+router.get("/validate", auth, async (req, res) => {
+  const usersInfoModel = modelData["usersInfoModel"];
+  await usersInfoModel
+    .find({ _id: req.userId })
+    .select("_id name email")
+    .then((userInfo) => {
+      res.send(userInfo);
+    })
+    .catch((error) => {
+      res.status(401).send(error);
+    });
+});
+
 router.post("/login", async (req, res) => {
   const email = req.headers.email;
   const password = req.headers.password;

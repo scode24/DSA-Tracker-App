@@ -63,7 +63,7 @@ function Header() {
           </div>
           <div
             className="flex flex-col justify-center items-center font-semibold cursor-pointer"
-            onClick={() => navigator("/")}
+            onClick={() => navigator("/playground")}
           >
             {appName + " " + appVersion}
           </div>
