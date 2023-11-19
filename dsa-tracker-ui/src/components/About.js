@@ -35,7 +35,8 @@ function About() {
                             <img className='w-10 h-10 rounded-md mr-3' src='my_pic.jpg' />
                             <div className='flex flex-col'>
                                 <span className='font-bold'>Soumyabrata Sarkar</span>
-                                <span>soumyabrata024@gmail.com</span>
+                                {/* <span>soumyabrata024@gmail.com</span> */}
+                                <span>Senior Software Developer</span>
                             </div>
                         </div>
 
