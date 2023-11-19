@@ -17,6 +17,8 @@ const auth = (req, res, next) => {
       return res.status(401).send("Not valid user");
     }
     req.userId = decoded["userId"];
+    req.name = decoded["name"];
+    req.email = decoded["email"];
   });
 
   next();
@@ -46,6 +48,8 @@ router.post("/login", async (req, res) => {
       const token = jwt.sign(
         {
           userId: userInfo[0]["_id"],
+          name: userInfo[0]["name"],
+          email: userInfo["email"],
         },
         process.env.ACCESS_TOKEN
       );

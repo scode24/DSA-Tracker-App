@@ -38,7 +38,7 @@ function EntryCard(props) {
 
       <div className="flex flex-row justify-center">
         <div className="flex flex-wrap m-3 w-fit">
-          <button className="w-28 bg-transparent text-black mx-1">
+          <button className="custom-entrycard-button w-28 bg-transparent text-black mx-1">
             <div className="flex flex-row justify-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -61,7 +61,7 @@ function EntryCard(props) {
               </span>
             </div>
           </button>
-          <button className="w-28 bg-transparent text-black mx-1">
+          <button className="custom-entrycard-button w-28 bg-transparent text-black mx-1">
             <div className="flex flex-row justify-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -81,7 +81,7 @@ function EntryCard(props) {
             </div>
           </button>
           <button
-            className="w-28 bg-transparent text-black mx-1"
+            className="custom-entrycard-button w-28 bg-transparent text-black mx-1"
             onClick={() => props["deleteLog"](props["data"]["_id"])}
           >
             <div className="flex flex-row justify-center">

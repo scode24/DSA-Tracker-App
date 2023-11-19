@@ -105,7 +105,7 @@ function Playground() {
   const validateAndPopulateData = useCallback(async () => {
     if (
       localStorage.getItem("accessToken") !== null &&
-      userInfoObj === undefined
+      userInfoObj["_id"] === ""
     ) {
       await axios
         .get(baseUrl + "/validate", {
@@ -114,7 +114,7 @@ function Playground() {
           },
         })
         .then((response) => {
-          setUserInfoObj(response["data"]["userInfo"][0]);
+          setUserInfoObj(response);
         })
         .catch((error) => {
           const response = error["response"];
@@ -122,7 +122,7 @@ function Playground() {
         });
     } else if (
       localStorage.getItem("accessToken") !== null &&
-      userInfoObj !== undefined
+      userInfoObj["_id"] !== ""
     ) {
       setMessageObj("", "");
       fetchAllLog();
