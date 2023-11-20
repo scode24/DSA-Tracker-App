@@ -1,5 +1,19 @@
 # DSA-Tracker 1.0
 
+<div style="display: flex;  flex-direction: row">
+    <div style="display: flex; flex: 3; flex-direction: column">
+        <div style="flex: 1;">
+            <img src="./screens/1.png" alt="DSA-Tracker">
+        </div>
+        <div style="flex: 1;">
+            <img src="./screens/2.png" alt="DSA-Tracker">
+        </div>
+    </div>
+   <div style="flex: 1; margin-left: 7px">
+        <img src="./screens/3.png" alt="DSA-Tracker">
+    </div>
+</div>
+
 DSA-Tracker 1.0 is a Full Stack web application designed to help users efficiently manage their Data Structures and Algorithms (DSA) study progress. This application provides a user-friendly interface for logging, updating, and deleting study entries, as well as tracking the status and complexity of each question.
 
 ## Features
@@ -13,9 +27,11 @@ Users can log their study sessions, providing valuable information about the que
 Each entry can include:
 
 - **Questions:** List of questions studied.
+- **Link:** Reference link.
 - **Topics:** Relevant DSA topics associated with the questions.
 - **Complexity:** Complexity level of the questions.
-- **Status:** Current status of the study session (e.g., In Progress, Completed).
+- **Notes:** Any notes regarding question.
+- **Status:** Current status of the study session (e.g., In Solved, Flagged for later view).
 
 ### 3. Update and Delete Entries
 
