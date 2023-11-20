@@ -1,8 +1,39 @@
-import React from "react";
+import React, { useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
+import { messageStore, userInfoStore } from "../shared/StateStore";
+import axios from "axios";
 
 function Main() {
+  const baseUrl = process.env.REACT_APP_SERVER_BASE_URL;
+  const { userInfoObj, setUserInfoObj } = userInfoStore();
+  const { setMessageObj } = messageStore();
+
   const navigator = useNavigate();
+  const validateAndPopulateData = useCallback(async () => {
+    if (
+      localStorage.getItem("accessToken") !== null &&
+      userInfoObj["_id"] === ""
+    ) {
+      await axios
+        .get(baseUrl + "/validate", {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+        })
+        .then((response) => {
+          setUserInfoObj(response["data"][0]);
+          navigator("/playground");
+        })
+        .catch((error) => {
+          const response = error["response"];
+          setMessageObj(response["data"], response["status"]);
+        });
+    }
+  }, [baseUrl, navigator, setMessageObj, setUserInfoObj, userInfoObj]);
+
+  useEffect(() => {
+    validateAndPopulateData();
+  }, [validateAndPopulateData]);
 
   return (
     <div className="flex flex-col justify-center items-center h-90v">

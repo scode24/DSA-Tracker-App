@@ -114,7 +114,7 @@ function Playground() {
           },
         })
         .then((response) => {
-          setUserInfoObj(response);
+          setUserInfoObj(response["data"][0]);
         })
         .catch((error) => {
           const response = error["response"];

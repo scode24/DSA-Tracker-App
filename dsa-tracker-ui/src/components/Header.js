@@ -10,6 +10,8 @@ function Header() {
   const { messageObj, setMessageObj } = messageStore();
   const { userInfoObj, setUserInfoObj } = userInfoStore();
 
+  console.log(userInfoObj);
+
   const [isUserInfoDialogOpen, setIsUserInfoDialogOpen] = useState(false);
 
   const navigator = useNavigate();
