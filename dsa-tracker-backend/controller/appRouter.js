@@ -1,8 +1,50 @@
 const express = require("express");
 const modelData = require("../models/appModels");
 const jwt = require("jsonwebtoken");
-const dotenv = require("dotenv").config();
 const router = express.Router();
+const mongoose = require("mongoose");
+const nodemailer = require("nodemailer");
+
+const sendOtp = async (toMail, otp) => {
+  try {
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.MAIL_AUTH_USER,
+        pass: process.env.MAIL_AUTH_PASSWORD,
+      },
+    });
+
+    // Define the email options
+    const mailOptions = {
+      from: process.env.MAIL_AUTH_USER,
+      to: toMail,
+      subject: "DSA Tracker App : OTP for password reset",
+      text: "OTP is " + otp,
+    };
+
+    // Send the email
+    await transporter.sendMail(mailOptions);
+    return "mail sent";
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
+const generateOtp = () => {
+  const min = 10000;
+  const max = 99999;
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+};
+
+const otpSchema = new mongoose.Schema({
+  email: String,
+  otp: Number,
+  createdAt: { type: Date, default: Date.now },
+});
+
+// Create a TTL index on the "createdAt" field with an expiration time of 24 hours
+otpSchema.index({ createdAt: 1 }, { expireAfterSeconds: 27 });
 
 const auth = (req, res, next) => {
   const authHeader = req.headers.authorization;
@@ -114,6 +156,19 @@ router.post("/save", auth, async (req, res) => {
     });
 });
 
+router.get("/checkValidEmail", async (req, res) => {
+  const email = req.headers.email;
+  const userInfo = modelData["usersInfoModel"];
+  await userInfo
+    .find({ email: email })
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((error) => {
+      res.status(500).send(error);
+    });
+});
+
 router.post("/update/:id", auth, async (req, res) => {
   const requestData = req.body;
   const entryModel = modelData["logEntryModel"];
@@ -182,6 +237,26 @@ router.get("/search", auth, async (req, res) => {
     })
     .then((data) => {
       res.send(data);
+    })
+    .catch((error) => {
+      res.status(500).send(error);
+    });
+});
+
+router.post("/generateOtp", async (req, res) => {
+  const otpModel = new mongoose.model("otp_data", otpSchema);
+  const otp = generateOtp();
+
+  await otpModel
+    .deleteMany({ email: req.headers.email })
+    .then(() => {
+      otpModel
+        .create({ email: req.headers.email, otp, createdAt: new Date() })
+        .then((response) => {
+          sendOtp(req.headers.email, otp).then((response) => {
+            res.send(response);
+          });
+        });
     })
     .catch((error) => {
       res.status(500).send(error);
