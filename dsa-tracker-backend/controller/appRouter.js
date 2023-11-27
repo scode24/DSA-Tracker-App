@@ -80,21 +80,24 @@ router.get("/validate", auth, async (req, res) => {
 });
 
 router.post("/login", async (req, res) => {
-  const email = req.headers.email;
-  const password = req.headers.password;
+  const email = req.body.email;
+  const password = req.body.password;
   const usersInfoModel = modelData["usersInfoModel"];
   await usersInfoModel
     .find({ email, password })
     .select("_id name email")
     .then((userInfo) => {
-      const token = jwt.sign(
-        {
-          userId: userInfo[0]["_id"],
-          name: userInfo[0]["name"],
-          email: userInfo["email"],
-        },
-        process.env.ACCESS_TOKEN
-      );
+      let token = undefined;
+      if (userInfo.length > 0) {
+        token = jwt.sign(
+          {
+            userId: userInfo[0]["_id"],
+            name: userInfo[0]["name"],
+            email: userInfo["email"],
+          },
+          process.env.ACCESS_TOKEN
+        );
+      }
       const response = {
         token,
         userInfo,
@@ -191,6 +194,21 @@ router.post("/update/:id", auth, async (req, res) => {
     });
 });
 
+router.post("/resetPassword", async (req, res) => {
+  const userModel = modelData["usersInfoModel"];
+  userModel
+    .updateOne(
+      { email: req.body.email },
+      { $set: { password: req.body.password } }
+    )
+    .then((data) => {
+      res.send("Password has been changed successfully");
+    })
+    .catch((error) => {
+      res.status(500).send(error);
+    });
+});
+
 router.get("/delete/:id", auth, async (req, res) => {
   const entryModel = modelData["logEntryModel"];
   const entryId = req.params.id;
@@ -257,6 +275,22 @@ router.post("/generateOtp", async (req, res) => {
             res.send(response);
           });
         });
+    })
+    .catch((error) => {
+      res.status(500).send(error);
+    });
+});
+
+router.get("/verifyOtp", async (req, res) => {
+  const otpModel = new mongoose.model("otp_data", otpSchema);
+  otpModel
+    .find({ email: req.headers.email, otp: req.headers.otp })
+    .then((response) => {
+      if (response.length > 0) {
+        res.send("verified");
+      } else {
+        res.send("not-verified");
+      }
     })
     .catch((error) => {
       res.status(500).send(error);

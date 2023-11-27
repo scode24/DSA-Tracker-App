@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { messageStore } from "../shared/StateStore";
+import bcrypt from "bcryptjs";
 
 function ForgotPassword() {
   const baseUrl = process.env.REACT_APP_SERVER_BASE_URL;
@@ -20,6 +21,12 @@ function ForgotPassword() {
   const handleInput = (e) => {
     formData[e.target.name] = e.target.value;
     setFormData(formData);
+  };
+
+  const hashPassword = (password) => {
+    // const salt = bcrypt.genSaltSync(10)
+    // example =>  $2a$10$CwTycUXWue0Thq9StjUM0u => to be added always to the password hash
+    return bcrypt.hashSync(password, "$2a$10$CwTycUXWue0Thq9StjUM0u");
   };
 
   const sendOtp = () => {
@@ -58,11 +65,45 @@ function ForgotPassword() {
     e.preventDefault();
     const html = e.target.outerHTML;
     if (html.indexOf("verifyotp-btn") > -1) {
-      //handle verify
+      axios
+        .get(baseUrl + "/verifyOtp", {
+          headers: {
+            email: formData["email"],
+            otp: formData["otp"],
+          },
+        })
+        .then((response) => {
+          if (response.data === "verified") {
+            setIsOtpValid(true);
+          } else {
+            setMessageObj("Invalid OTP. Please try again.", "info");
+          }
+        });
     } else {
       setIsOtpRegenerate(true);
       sendOtp();
     }
+  };
+
+  const handlePasswordResetForm = (e) => {
+    e.preventDefault();
+    if (formData["password"] !== formData["confirmPassword"]) {
+      setMessageObj("Please confirm password", "info");
+      return;
+    }
+
+    axios
+      .post(baseUrl + "/resetPassword", {
+        email: formData["email"],
+        password: hashPassword(formData["password"]),
+      })
+      .then((response) => {
+        setMessageObj(response["data"], response["status"]);
+      })
+      .catch((error) => {
+        const response = error["response"];
+        setMessageObj(response["data"], response["status"]);
+      });
   };
 
   const checkValidEmail = (e) => {
@@ -109,7 +150,7 @@ function ForgotPassword() {
             <></>
           )}
 
-          {isEmailValid ? (
+          {isEmailValid && !isOtpValid ? (
             <form onSubmit={handleOtpForm}>
               {isOtpRegenerate ? (
                 <div className="flex flex-col mt-3">
@@ -122,7 +163,12 @@ function ForgotPassword() {
                       Expiring in {otpTimer} sec
                     </Link>
                   </div>
-                  <input type="number" maxLength={4} />
+                  <input
+                    type="number"
+                    name="otp"
+                    maxLength={4}
+                    onChange={handleInput}
+                  />
 
                   <button
                     className="custom-button w-full mt-5"
@@ -147,18 +193,22 @@ function ForgotPassword() {
           )}
 
           {isEmailValid && isOtpValid ? (
-            <form>
+            <form onSubmit={handlePasswordResetForm}>
               <div className="flex flex-col mt-3">
                 <label>New password</label>
-                <input type="password" />
+                <input type="password" name="password" onChange={handleInput} />
               </div>
 
               <div className="flex flex-col mt-3">
                 <label>Confirm password</label>
-                <input type="password" />
+                <input
+                  type="password"
+                  name="confirmPassword"
+                  onChange={handleInput}
+                />
               </div>
 
-              <button className="w-full mt-5" onClick={checkValidEmail}>
+              <button className="custom-button w-full mt-5" type="submit">
                 Confirm password
               </button>
             </form>

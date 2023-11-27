@@ -39,19 +39,15 @@ function Login() {
     }
 
     axios
-      .post(
-        baseUrl + "/login",
-        {},
-        {
-          headers: {
-            "Content-Type": "application/json",
-            email: formData["email"],
-            password: hashPassword(formData["password"]),
-          },
-        }
-      )
+      .post(baseUrl + "/login", {
+        email: formData["email"],
+        password: hashPassword(formData["password"]),
+      })
       .then((response) => {
-        if (response["data"]["userInfo"].length === 0) {
+        if (
+          response["data"]["userInfo"].length === 0 &&
+          response["data"]["token"] === undefined
+        ) {
           setMessageObj("Invalid credentials. Please try again", "info");
         } else {
           setUserInfoObj(response["data"]["userInfo"][0]);
