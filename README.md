@@ -64,6 +64,12 @@ DSA-Tracker 1.0 is fully responsive, ensuring a seamless user experience across 
 
 - Implements route guards to control access to specific routes based on user authentication status.
 
+#### OTP Generation for password reset
+
+- Generated OTP and store in MongoDB.
+- Created MongoDB schema which expires OTP after certain second ( Using TTL Schema)
+- Mail trigger using Gmail STMP server, using authentication user and app password
+
 #### Express and Express Router
 
 - Utilizes the Express.js framework for building the backend API.
