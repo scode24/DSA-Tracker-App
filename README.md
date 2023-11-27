@@ -53,7 +53,7 @@ A summary card on the main screen displays counts of solved and flagged question
 
 DSA-Tracker 1.0 is fully responsive, ensuring a seamless user experience across various screen sizes and devices.
 
-### Technical Features
+### Highlighting Features
 
 #### JWT Authentication
 
