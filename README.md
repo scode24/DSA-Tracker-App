@@ -16,6 +16,8 @@
 
 DSA-Tracker 1.0 is a Full Stack web application designed to help users efficiently manage their Data Structures and Algorithms (DSA) study progress. This application provides a user-friendly interface for logging, updating, and deleting study entries, as well as tracking the status and complexity of each question.
 
+### App URL : https://app-dsa-tracker.netlify.app/
+
 ## Features
 
 ### 1. Logging Entries
